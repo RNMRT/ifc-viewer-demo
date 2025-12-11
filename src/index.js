@@ -6,17 +6,41 @@ import * as BUI from "@thatopen/ui";
 // --------------------------------------------------------------------------
 
 // TODO: Initialize the Components instance
+const components = new OBC.Components();
 
 // TODO: Get the Worlds component and create a new world
 // Tip: Use `const world = worlds.create();` to create a new world
+const worlds = components.get(OBC.Worlds);
+//..const world = worlds.create();
+const world = worlds.create(
+  OBC.SimpleScene,
+  OBC.OrthoPerspectiveCamera,
+  OBC.SimpleRenderer
+);
+
 
 // TODO: Initialize the Scene (SimpleScene), setup it, and clear the background
 
+world.scene = new OBC.SimpleScene(components);
+world.scene.setup();
+world.scene.three.background = null;
+
+
 // TODO: Initialize the Renderer (SimpleRenderer) and attach it to the container
+const rendererComponent = components.get(OBC.SimpleRenderer);
+rendererComponent.setupEvents();
+const container = document.getElementById("container");
+container.appendChild(rendererComponent.get().domElement);
+world.renderer = rendererComponent.get();
 
 // TODO: Initialize the Camera (OrthoPerspectiveCamera) and set the initial position
+const cameraComponent = components.get(OBC.OrthoPerspectiveCamera);
+world.camera = cameraComponent.get();
+cameraComponent.position.set(12, 12, 12);
 
 // TODO: Initialize the components (components.init())
+components.init();
+
 
 // --------------------------------------------------------------------------
 // 2. THE TOOLS: Adding capabilities (Grid, IFC Loading, Fragments)
